@@ -1,5 +1,15 @@
 version: "3.7"
 services:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=rlence
+      - POSTGRES_PASSWORD=rlencepassword
+
   back:
     container_name: back-app
     build: ./back
@@ -10,6 +20,8 @@ services:
       - /usr/local/app/node_modules/
       - /usr/local/share/.cache/yarn/
     command: bash -c "yarn install && yarn start"
+    depends_on:
+      - postgres
     ports:
       - "4000:4000"
     environment:

@@ -1,11 +1,21 @@
-import express from 'express';
+import express, { Express } from 'express';
+import cors from 'cors';
 
-const app = express();
+import Environment from './config';
+import router from './app/router';
 
-app.get('/', (req, res) => {
-    res.json('hello world');
-})
+export const app: Express = express();
 
-app.listen(4000, () => {
-    console.log('Listen in port 4000')
+const PORT = Environment.PORT || 4000;
+
+//Middleware
+app.use(cors());
+app.use(express.json());
+
+//Routers
+router(app);
+
+//Sever Listen
+app.listen(PORT, () => {
+    console.log(`Server Listen in PORT: ${PORT}`);
 });
